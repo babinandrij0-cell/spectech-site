@@ -700,28 +700,23 @@ var form = document.getElementById('orderForm');
 if(form) {
   form.addEventListener('submit', function(e){
     e.preventDefault();
-    var BOT = '8871393843:AAGzEbxW9lNKgY1lssiHiGEsrWHYp_gyX_g';
-    var IDS = ['5160843441','2043689397'];
     var fname = document.getElementById('fname') ? document.getElementById('fname').value : '';
     var fphone = document.getElementById('fphone') ? document.getElementById('fphone').value : '';
     var fservice = document.getElementById('fservice') ? document.getElementById('fservice').value : '';
     var fmsg = document.getElementById('fmsg') ? document.getElementById('fmsg').value : '';
-    var txt = encodeURIComponent('🚛 Нова заявка СПЕЦТЕХ!\n\n👤 ' + fname + '\n📞 ' + fphone + '\n🔧 ' + fservice + '\n📝 ' + fmsg + '\n⏰ ' + new Date().toLocaleString('uk-UA'));
     
-    IDS.forEach(function(id){
-      fetch('https://api.telegram.org/bot' + BOT + '/sendMessage', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({chat_id: id, text: decodeURIComponent(txt)})
-      });
-    });
+    var text = 'Привіт! Залишаю заявку з сайту СПЕЦТЕХ:%0A%0A'
+      + '%F0%9F%91%A4 %D0%86%D0%BC%27%D1%8F%3A ' + encodeURIComponent(fname) + '%0A'
+      + '%F0%9F%93%9E %D0%A2%D0%B5%D0%BB%D0%B5%D1%84%D0%BE%D0%BD%3A ' + encodeURIComponent(fphone) + '%0A'
+      + '%F0%9F%94%A7 %D0%9F%D0%BE%D1%81%D0%BB%D1%83%D0%B3%D0%B0%3A ' + encodeURIComponent(fservice) + '%0A'
+      + '%F0%9F%93%9D %D0%9E%D0%BF%D0%B8%D1%81%3A ' + encodeURIComponent(fmsg);
     
-    setTimeout(function(){
-      var f = document.getElementById('orderForm');
-      var s = document.getElementById('formSuccess');
-      if(f) f.style.display='none';
-      if(s) s.style.display='block';
-    }, 1500);
+    window.open('https://t.me/spectech_chernivtsi_bot?start=' + encodeURIComponent(fname + ' ' + fphone), '_blank');
+    
+    var f = document.getElementById('orderForm');
+    var s = document.getElementById('formSuccess');
+    if(f) f.style.display='none';
+    if(s) s.style.display='block';
   });
 }
 </script>
