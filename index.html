@@ -640,10 +640,11 @@ footer p+p{margin-top:8px}
 document.getElementById('year').textContent=new Date().getFullYear();
 
 // BURGER
-const burger=document.getElementById('burger');
-const mobMenu=document.getElementById('mobMenu');
-burger.addEventListener('click',()=>{burger.classList.toggle('open');mobMenu.classList.toggle('open')});
-document.querySelectorAll('.mc').forEach(l=>l.addEventListener('click',()=>{burger.classList.remove('open');mobMenu.classList.remove('open')}));
+var burger=document.getElementById('burger');
+var mobMenu=document.getElementById('mobMenu');
+if(burger){burger.addEventListener('click',function(){burger.classList.toggle('open');mobMenu.classList.toggle('open')});}
+var mcLinks=document.querySelectorAll('.mc');
+if(mcLinks){mcLinks.forEach(function(l){l.addEventListener('click',function(){if(burger)burger.classList.remove('open');if(mobMenu)mobMenu.classList.remove('open');});});}
 
 // HERO SLIDESHOW (фото вставляються через photos.js)
 let hIdx=0;
@@ -724,7 +725,6 @@ if(form) {
   });
 }
 </script>
-<script src="photos.js"></script>
+
 </body>
 </html>
-
