@@ -695,25 +695,36 @@ rTimer=setInterval(()=>goR(rIdx+1),5000);
 function toggleFaq(el){el.parentElement.classList.toggle('open')}
 
 // FORM
-document.getElementById('orderForm').addEventListener('submit',function(e){
-  e.preventDefault();
-  var BOT = '8871393843:AAGzEbxW9lNKgY1lssiHiGEsrWHYp_gyX_g';
-  var IDS = ['5160843441','2043689397'];
-  var txt = '🚛 Нова заявка СПЕЦТЕХ!%0A%0A'
-    + '👤 ' + document.getElementById('fname').value + '%0A'
-    + '📞 ' + document.getElementById('fphone').value + '%0A'
-    + '🔧 ' + document.getElementById('fservice').value + '%0A'
-    + '📝 ' + document.getElementById('fmsg').value;
-  IDS.forEach(function(id){
-    var img = new Image();
-    img.src = 'https://api.telegram.org/bot' + BOT + '/sendMessage?chat_id=' + id + '&text=' + txt;
+var form = document.getElementById('orderForm');
+if(form) {
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var BOT = '8871393843:AAGzEbxW9lNKgY1lssiHiGEsrWHYp_gyX_g';
+    var IDS = ['5160843441','2043689397'];
+    var fname = document.getElementById('fname') ? document.getElementById('fname').value : '';
+    var fphone = document.getElementById('fphone') ? document.getElementById('fphone').value : '';
+    var fservice = document.getElementById('fservice') ? document.getElementById('fservice').value : '';
+    var fmsg = document.getElementById('fmsg') ? document.getElementById('fmsg').value : '';
+    var txt = encodeURIComponent('🚛 Нова заявка СПЕЦТЕХ!\n\n👤 ' + fname + '\n📞 ' + fphone + '\n🔧 ' + fservice + '\n📝 ' + fmsg + '\n⏰ ' + new Date().toLocaleString('uk-UA'));
+    
+    IDS.forEach(function(id){
+      fetch('https://api.telegram.org/bot' + BOT + '/sendMessage', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({chat_id: id, text: decodeURIComponent(txt)})
+      });
+    });
+    
+    setTimeout(function(){
+      var f = document.getElementById('orderForm');
+      var s = document.getElementById('formSuccess');
+      if(f) f.style.display='none';
+      if(s) s.style.display='block';
+    }, 1500);
   });
-  setTimeout(function(){
-    document.getElementById('orderForm').style.display='none';
-    document.getElementById('formSuccess').style.display='block';
-  }, 1500);
-});
+}
 </script>
 <script src="photos.js"></script>
 </body>
 </html>
+
